@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Product = require("../models/Product");
+const Cart = require("../models/Cart");
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin, verifyToken } = require("./verifyToken");
 
 //CREATE USER CART
@@ -67,4 +67,4 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 })
 
 
-// module.exports = router
+ module.exports = router
