@@ -1,26 +1,27 @@
 const router = require("express").Router();
 const User = require('../models/User');
 const CryptoJS = require("crypto-js");
-const { JsonWebTokenError } = require("jsonwebtoken");
+const {
+    JsonWebTokenError
+} = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
 
 //REGISTER
-router.post("/register", async (req, res)=>{
+router.post("/register", async (req, res) => {
     const newUser = new User({
         username: req.body.username,
         email: req.body.email,
         password: CryptoJS.AES.encrypt(
-            req.body.password, 
+            req.body.password,
             process.env.PASS_SECRET
-            ).toString(),
+        ).toString(),
     });
 
-    
     try {
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
         console.log("User created: ", savedUser);
-    } catch(err){
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -28,30 +29,38 @@ router.post("/register", async (req, res)=>{
 
 //LOGIN
 
-router.post("/login", async (req, res)=>{
+router.post("/login", async (req, res) => {
     try {
-        const user = await User.findOne({username: req.body.username });
+        const user = await User.findOne({
+            username: req.body.username
+        });
         !user && res.status(401).json("Wrong credentials!");
         const hashedPassword = CryptoJS.AES.decrypt(
             user.password,
             process.env.PASS_SECRET
-            );
-            const decryptedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+        );
+        const decryptedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
-            decryptedPassword !== req.body.password &&
+        decryptedPassword !== req.body.password &&
             res.status(401).json("Wrong credentials!");
 
-                const accessToken = jwt.sign({
-                    id:user._id,
-                    isAdmin: user.isAdmin,
-                }, process.env.JWT_SECRET,
-                {expiresIn:"3d"}
-                );   
+        const accessToken = jwt.sign({
+            id: user._id,
+            isAdmin: user.isAdmin,
+        }, process.env.JWT_SECRET, {
+            expiresIn: "3d"
+        });
 
-            const {password, ...others} = user._doc;
-            res.status(200).json({...others, accessToken});
+        const {
+            password,
+            ...others
+        } = user._doc;
+        res.status(200).json({
+            ...others,
+            accessToken
+        });
 
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 })
