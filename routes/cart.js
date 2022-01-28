@@ -4,7 +4,7 @@ const { verifyTokenAndAuthorization, verifyTokenAndAdmin, verifyToken } = requir
 
 //CREATE USER CART
 
-router.post("/", verifyToken, async (req, res)=> {
+router.post("/", async (req, res)=> {
 
         const newCart = new Cart(req.body);
 
