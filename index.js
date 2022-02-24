@@ -12,7 +12,10 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const cors = require("cors");
 
-
+const corsOptions = {
+    origin: 'https://epic-panini-c9f6f6.netlify.app/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
 
 
 mongoose.connect(process.env.MONGO_URL)
@@ -22,7 +25,7 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
