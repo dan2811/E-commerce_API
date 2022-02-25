@@ -24,9 +24,8 @@ mongoose.connect(process.env.MONGO_URL)
         console.log("DATABASE CONNECTION ERROR: ", err);
     });
 
-
-app.use(cors(corsOptions));
 app.use(express.json());
+app.options('*', cors(corsOptions));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
