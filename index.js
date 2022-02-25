@@ -25,13 +25,13 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 app.use(express.json());
-app.options('*', cors(corsOptions));
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/products", productRoute);
-app.use("/api/carts", cartRoute);
-app.use("/api/orders", orderRoute);
-app.use("/api/checkout", stripeRoute);
+app.use('*', cors(corsOptions));
+app.use("/api/auth", cors(corsOptions), authRoute);
+app.use("/api/users", cors(corsOptions), userRoute);
+app.use("/api/products", cors(corsOptions), productRoute);
+app.use("/api/carts", cors(corsOptions), cartRoute);
+app.use("/api/orders", cors(corsOptions), orderRoute);
+app.use("/api/checkout", cors(corsOptions), stripeRoute);
 
 
 app.listen(process.env.PORT || 5000, () => {
