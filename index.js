@@ -13,7 +13,7 @@ const stripeRoute = require("./routes/stripe");
 const cors = require("cors");
 
 const corsOptions = {
-    origin: 'epic-panini-c9f6f6.netlify.app/',
+    origin: 'https://epic-panini-c9f6f6.netlify.app',
     optionsSuccessStatus: 200
   };
 
