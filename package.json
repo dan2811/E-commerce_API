@@ -8,7 +8,8 @@
     "npm": "8.3.2"
 },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd E-commerce && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

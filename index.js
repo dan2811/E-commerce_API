@@ -12,11 +12,6 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const cors = require("cors");
 
-const corsOptions = {
-    origin: 'https://epic-panini-c9f6f6.netlify.app',
-    optionsSuccessStatus: 200
-  };
-
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("DB connection successful"))
@@ -25,13 +20,21 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 app.use(express.json());
-app.use('*', cors(corsOptions));
-app.use("/api/auth", cors(corsOptions), authRoute);
-app.use("/api/users", cors(corsOptions), userRoute);
-app.use("/api/products", cors(corsOptions), productRoute);
-app.use("/api/carts", cors(corsOptions), cartRoute);
-app.use("/api/orders", cors(corsOptions), orderRoute);
-app.use("/api/checkout", cors(corsOptions), stripeRoute);
+
+app.use(cors);
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+
+app.use(express.static(path.join(__dirname, "/E-commerce/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/E-commerce/build', 'index.html'));
+});
 
 
 app.listen(process.env.PORT || 5000, () => {
