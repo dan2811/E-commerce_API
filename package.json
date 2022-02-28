@@ -9,7 +9,7 @@
 },
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd E_commerce && npm install && npm run build"
+    "heroku-postbuild": "cd E_commerce && yarn install && yarn build"
   },
   "keywords": [],
   "author": "",
