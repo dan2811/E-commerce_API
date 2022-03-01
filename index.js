@@ -33,7 +33,7 @@ app.use("/api/checkout", stripeRoute);
 
 app.use(express.static(path.join(__dirname, "/E_commerce/build")));
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/E_commerce/build', 'index.html'));
 });
 
